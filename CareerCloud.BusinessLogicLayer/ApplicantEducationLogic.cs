@@ -35,7 +35,7 @@ namespace CareerCloud.BusinessLogicLayer
         protected override void Verify(ApplicantEducationPoco[] pocos)
         {
             List<ValidationException> exceptions = new List<ValidationException>();
-            string[] requiredExtendedPasswordChars = new string[] { "$", "*", "#", "_", "@" };
+          
 
             foreach (var poco in pocos)
             {
