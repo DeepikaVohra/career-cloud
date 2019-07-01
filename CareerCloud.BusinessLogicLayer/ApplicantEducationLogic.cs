@@ -49,14 +49,14 @@ namespace CareerCloud.BusinessLogicLayer
                 }
                 
 
-                if (poco.StartDate>DateTime.Now)
+                if (poco.StartDate<DateTime.Now)
                 {
-                    exceptions.Add(new ValidationException(108, $"StartDate for ApplicantEducation {poco.Id} must be greater than  current date"));
+                    exceptions.Add(new ValidationException(108, $"StartDate for ApplicantEducation {poco.Id} must be less than  current date"));
                 }
                
                 if (poco.CompletionDate>(poco.StartDate))
                 {
-                    exceptions.Add(new ValidationException(109, "EmailAddress for SecurityLogin {poco.Id} is not a valid email address format."));
+                    exceptions.Add(new ValidationException(109, $"CompletionDate  for ApplicantEducation {poco.Id} must be greater  than  Start date."));
                 }
                }
         }
