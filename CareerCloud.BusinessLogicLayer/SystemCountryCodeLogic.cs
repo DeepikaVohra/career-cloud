@@ -25,6 +25,7 @@ namespace CareerCloud.BusinessLogicLayer
 
             base.Add(pocos);
         }
+      
 
         protected override void Verify(SystemCountryCodePoco[] pocos)
         {
@@ -41,6 +42,10 @@ namespace CareerCloud.BusinessLogicLayer
                 {
                     exceptions.Add(new ValidationException(901, $"Name for SystemCountryCode {poco.Name} cannot be null"));
                 }
+            }
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
             }
         }
     }
