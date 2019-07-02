@@ -8,36 +8,37 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.BusinessLogicLayer
 {
-    public class ApplicantWorkHistoryLogic : BaseLogic<ApplicantWorkHistoryPoco>
+    public class SecurityRoleLogic : BaseLogic<SecurityRolePoco>
     {
-        public ApplicantWorkHistoryLogic(IDataRepository<ApplicantWorkHistoryPoco> repository) : base(repository)
+        public SecurityRoleLogic(IDataRepository<SecurityRolePoco> repository) : base(repository)
         {
         }
-        public override void Add(ApplicantWorkHistoryPoco[] pocos)
+        public override void Add(SecurityRolePoco[] pocos)
         {
             Verify(pocos);
 
             base.Add(pocos);
         }
 
-        public override void Update(ApplicantWorkHistoryPoco[] pocos)
+        public override void Update(SecurityRolePoco[] pocos)
         {
             Verify(pocos);
             base.Update(pocos);
         }
 
-        protected override void Verify(ApplicantWorkHistoryPoco[] pocos)
+        protected override void Verify(SecurityRolePoco[] pocos)
         {
             List<ValidationException> exceptions = new List<ValidationException>();
 
 
             foreach (var poco in pocos)
             {
-                if (poco.CompanyName.Length < 2)
+
+                if(string.IsNullOrEmpty(poco.Role))
                 {
-                    exceptions.Add(new ValidationException(105, $"CompanyName for ApplicantWorkHistory {poco.Id} must be greater than 2 characters."));
+                    exceptions.Add(new ValidationException(800, $"Role for SecurityRole {poco.Id} cannot be null"));
                 }
-               
+
 
             }
         }
