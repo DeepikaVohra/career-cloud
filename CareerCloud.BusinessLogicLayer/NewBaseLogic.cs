@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.BusinessLogicLayer
 {
-    public abstract class NewBaseLogic<TPoco> where TPoco : SystemCountryCodePoco
+    public abstract class NewBaseLogic<TPoco>
     {
 
         protected IDataRepository<TPoco> _repository;
@@ -20,10 +20,7 @@ namespace CareerCloud.BusinessLogicLayer
         {
             return;
         }
-        public virtual TPoco Get(String code)
-        {
-            return _repository.GetSingle(c => c.Code == code);
-        }
+        
         public virtual List<TPoco> GetAll()
         {
             return _repository.GetAll().ToList();
@@ -39,10 +36,9 @@ namespace CareerCloud.BusinessLogicLayer
         }
         public virtual void Add(TPoco[] pocos)
         {
-            foreach (TPoco poco in pocos)
-            {
+        
                 _repository.Add(pocos);
-            }
+            
 
         }
     }

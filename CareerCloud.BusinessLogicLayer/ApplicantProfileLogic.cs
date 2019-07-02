@@ -34,16 +34,20 @@ namespace CareerCloud.BusinessLogicLayer
 
             foreach (var poco in pocos)
             {
-                if (poco.CurrentSalary <= 0)
+                if ((poco.CurrentSalary < 0)||(poco.CurrentSalary==0))
                 {
-                    exceptions.Add(new ValidationException(111, $"CurrentSalary for ApplicantProfile {poco.Id} canot be negitive."));
+                    exceptions.Add(new ValidationException(111, $"CurrentSalary for ApplicantProfile  canot be negitive."));
                 }
 
-                if (poco.CurrentRate <= 0)
+                if (poco.CurrentRate < 0 || poco.CurrentRate==0)
                 {
-                    exceptions.Add(new ValidationException(112, $"CurrentRate for ApplicantProfile {poco.Id} canot be negitive."));
+                    exceptions.Add(new ValidationException(112, $"CurrentRate for ApplicantProfile  canot be negitive."));
                 }
 
+            }
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
             }
         }
     }

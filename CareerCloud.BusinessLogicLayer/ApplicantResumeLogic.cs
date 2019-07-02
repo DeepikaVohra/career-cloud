@@ -38,6 +38,10 @@ namespace CareerCloud.BusinessLogicLayer
                     exceptions.Add(new ValidationException(113, $"Resume for ApplicantResume {poco.Id} cannot be null"));
                 }
             }
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
+            }
         }
     }
 }

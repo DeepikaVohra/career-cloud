@@ -17,8 +17,6 @@ namespace CareerCloud.BusinessLogicLayer
         {
         }
 
-       
-
         public override void Add(ApplicantEducationPoco[] pocos)
         {
             Verify(pocos);
@@ -35,32 +33,37 @@ namespace CareerCloud.BusinessLogicLayer
         protected override void Verify(ApplicantEducationPoco[] pocos)
         {
             List<ValidationException> exceptions = new List<ValidationException>();
-          
+
 
             foreach (var poco in pocos)
             {
                 if (string.IsNullOrEmpty(poco.Major))
                 {
-                    exceptions.Add(new ValidationException(107, $"Major for ApplicantEducation {poco.Id} cannot be null"));
+                    exceptions.Add(new ValidationException(107, $"Major for ApplicantEducation  cannot be null"));
                 }
                 else if (poco.Major.Length < 3)
                 {
-                    exceptions.Add(new ValidationException(107, $"Password for ApplicantEducation {poco.Id} must be greater than 3 characters."));
+                    exceptions.Add(new ValidationException(107, $"Major for ApplicantEducation  must be greater than 2 characters."));
                 }
-                
 
-                if (poco.StartDate<DateTime.Now)
+
+                if (poco.StartDate > DateTime.Now)
                 {
                     exceptions.Add(new ValidationException(108, $"StartDate for ApplicantEducation {poco.Id} must be less than  current date"));
                 }
-               
-                if (poco.CompletionDate>(poco.StartDate))
+
+                if (poco.CompletionDate < (poco.StartDate))
                 {
                     exceptions.Add(new ValidationException(109, $"CompletionDate  for ApplicantEducation {poco.Id} must be greater  than  Start date."));
                 }
-               }
+            }
+           if(exceptions.Count>0)
+            {
+                throw new AggregateException(exceptions);
+            }
+        }
         }
 
        
     }
-}
+

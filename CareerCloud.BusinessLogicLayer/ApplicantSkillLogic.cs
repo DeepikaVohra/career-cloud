@@ -33,15 +33,15 @@ namespace CareerCloud.BusinessLogicLayer
 
             foreach (var poco in pocos)
             {
-                if (poco.StartMonth <= 12)
+                if (poco.StartMonth >12)
                 {
                     exceptions.Add(new ValidationException(101, $"StartMonth for ApplicantSkill {poco.Id} should be less then 12"));
                 }
-                if (poco.EndMonth <= 12)
+                if (poco.EndMonth >12)
                 {
                     exceptions.Add(new ValidationException(102, $"EndMonth for ApplicantSkill {poco.Id} should be less then 12"));
                 }
-                if (poco.StartYear > 1900)
+                if (poco.StartYear < 1900)
                 {
                     exceptions.Add(new ValidationException(103, $"StartYear for ApplicantSkill {poco.Id} should be greater then 1900"));
                 }
@@ -49,6 +49,10 @@ namespace CareerCloud.BusinessLogicLayer
                 {
                     exceptions.Add(new ValidationException(104, $"EndYear for ApplicantSkill {poco.Id} should be greater then StartYear"));
                 }
+            }
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
             }
         }
     }

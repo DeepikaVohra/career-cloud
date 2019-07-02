@@ -33,7 +33,7 @@ namespace CareerCloud.BusinessLogicLayer
 
             foreach (var poco in pocos)
             {
-                if (poco.Major.Length < 2)
+                if ((String.IsNullOrEmpty(poco.Major)||poco.Major.Length < 2)||poco.Major.Length==2)
                 {
                     exceptions.Add(new ValidationException(200, $"Major for CompanyJobEducation {poco.Id} must be greater than 2 characters."));
                 }
@@ -42,6 +42,10 @@ namespace CareerCloud.BusinessLogicLayer
                     exceptions.Add(new ValidationException(201, $"Importance  for CompanyJobEducation {poco.Id} must be greater than zero ."));
                 }
 
+            }
+            if (exceptions.Count > 0)
+            {
+                throw new AggregateException(exceptions);
             }
         }
     }
