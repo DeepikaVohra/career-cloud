@@ -19,6 +19,10 @@ namespace CareerCloud.BusinessLogicLayer
             Verify(pocos);
             base.Update(pocos);
         }
+        public virtual SystemLanguageCodePoco Get(String name)
+        {
+            return _repository.GetSingle(c => c.Name == name);
+        }
         public override void Add(SystemLanguageCodePoco[] pocos)
         {
             Verify(pocos);

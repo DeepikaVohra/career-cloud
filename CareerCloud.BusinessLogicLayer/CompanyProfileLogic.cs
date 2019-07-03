@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace CareerCloud.BusinessLogicLayer
 {
-   public  class CompanyProfileLogic :BaseLogic<CompanyProfilePoco>
+    public class CompanyProfileLogic : BaseLogic<CompanyProfilePoco>
     {
         public CompanyProfileLogic(IDataRepository<CompanyProfilePoco> repository) : base(repository)
         {
         }
-            public override void Add(CompanyProfilePoco[] pocos)
+        public override void Add(CompanyProfilePoco[] pocos)
         {
             Verify(pocos);
 
@@ -29,52 +29,55 @@ namespace CareerCloud.BusinessLogicLayer
         protected override void Verify(CompanyProfilePoco[] pocos)
         {
             List<ValidationException> exceptions = new List<ValidationException>();
-
+            string[] websitestrings = new string[] { ".ca", ".com", ".biz" };
 
             foreach (var poco in pocos)
             {
-                if(String.IsNullOrEmpty(poco.CompanyWebsite) )
+                if (String.IsNullOrEmpty(poco.CompanyWebsite))
 
                 {
-                    exceptions.Add(new ValidationException(600, $"Valid websites must end with the following extensions – .ca, .com, .biz"));
+                    exceptions.Add(new ValidationException(600, $"website string cannot be empty"));
                 }
-                else if ((poco.CompanyWebsite != ".ca" || poco.CompanyWebsite != ".com" || poco.CompanyWebsite != ".biz"))
+                else if (!websitestrings.Any(t => poco.CompanyWebsite.Contains(t)))
                 {
                     exceptions.Add(new ValidationException(600, $"Valid websites must end with the following extensions – .ca, .com, .biz"));
                 }
-                if (String.IsNullOrEmpty(poco.ContactPhone))
+
+                if (string.IsNullOrEmpty(poco.ContactPhone))
                 {
-                    exceptions.Add(new ValidationException(601, $"PhoneNumber for CompanyProfile canot be null."));
+                    exceptions.Add(new ValidationException(601, $"PhoneNumber for SecurityLogin {poco.Id} is required"));
                 }
-                string[] phoneComponents = poco.ContactPhone.Split('-');
-               
-                
+                else
+                {
+                    string[] phoneComponents = poco.ContactPhone.Split('-');
                     if (phoneComponents.Length != 3)
                     {
-                        exceptions.Add(new ValidationException(601, $"PhoneNumber for CompanyProfile {poco.Id} is not in the required format."));
+                        exceptions.Add(new ValidationException(601, $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
                     }
                     else
                     {
                         if (phoneComponents[0].Length != 3)
                         {
-                            exceptions.Add(new ValidationException(601, $"PhoneNumber for CompanyProfile {poco.Id} is not in the required format."));
+                            exceptions.Add(new ValidationException(601, $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
                         }
                         else if (phoneComponents[1].Length != 3)
                         {
-                            exceptions.Add(new ValidationException(601, $"PhoneNumber for CompanyProfile {poco.Id} is not in the required format."));
+                            exceptions.Add(new ValidationException(601, $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
                         }
                         else if (phoneComponents[2].Length != 4)
                         {
-                            exceptions.Add(new ValidationException(601, $"PhoneNumber for CompanyProfile {poco.Id} is not in the required format."));
+                            exceptions.Add(new ValidationException(601, $"PhoneNumber for SecurityLogin {poco.Id} is not in the required format."));
                         }
                     }
                 }
-            
-            if (exceptions.Count > 0)
-            {
-                throw new AggregateException(exceptions);
-            }
-        }
 
+                if (exceptions.Count > 0)
+                {
+                    throw new AggregateException(exceptions);
+                }
+            }
+
+        }
     }
 }
+
